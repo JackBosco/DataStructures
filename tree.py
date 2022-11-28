@@ -1,11 +1,17 @@
 #Practice the Tree data structure
 #Jack Bosco
-
-class Node():
+from drawTree import PrintNode
+class Node(PrintNode):
 	def __init__(self, value):
 		self.value = value
 		self.left = None
 		self.right = None
+
+	def getChildren(self):
+		return [self.left, self.right]
+
+	def getVal(self):
+		return str(self.value)
 
 class Queue():
 	def __init__(self):
