@@ -48,9 +48,9 @@ class drawTree:
             sibNum = 0
             for p in parentLevel:     
                 if p and findParent[p]:
-                    spaceRange = 2**(level - curLev)
                     siblings = findParent[p].getChildren()
                     numSiblings = 1 if len(siblings) == 1 else len(siblings) - 1
+                    spaceRange = (numSiblings+1)**(level - curLev)
                     sibPos = [i for i in arange(-spaceRange/2.0, spaceRange/2.0+1, spaceRange/(numSiblings))]
                     ret += '\\node[state'
                     ret += ', below of=' + str(getTag[findParent[p]][0]) + '-' + str(getTag[findParent[p]][1])
@@ -77,17 +77,20 @@ class drawTree:
         return ret
         
 def main():
-    # from tree import BST
-    # lst = [5, 7, 8, 2, 3, 4, 1, 0 ,443, 5, 6, 7, 2]
-    # myTree = BST(lst)
-    # print(myTree)
-    from trie import Trie
-    myTree = Trie()
-    myTree.insert('ok')
-    myTree.insert('on')
-    myTree.insert('oklahoma')
-    myTree.insert('okanawa')
-    myTree.insert('optimism')
+    kind = int(input("What kind? "))
+    if kind == 1:
+        from tree import BST
+        lst = [5, 7, 8, 2, 3, 4, 1, 0 ,443, 5, 6, 7, 2]
+        myTree = BST(lst)
+        print(myTree)
+    else:
+        from trie import Trie
+        myTree = Trie()
+        myTree.insert('ok')
+        myTree.insert('on')
+        myTree.insert('oklahoma')
+        myTree.insert('okanawa')
+        myTree.insert('optimism')
     dt = drawTree
     print(dt.run(myTree.root))
 
