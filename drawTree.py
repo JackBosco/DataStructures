@@ -116,7 +116,7 @@ def main():
         #lst = [5, 7, 8, 2, 3, 4, 1, 0 ,443, 5, 6, 7, 2]
         lst = [3, 2, 4]
         myTree = BST(lst)
-        myTree.root.printToPDF()
+        myTree.root.printToPDF(width)
     else:
         from trie import Trie
         myTree = Trie()
@@ -125,7 +125,7 @@ def main():
         myTree.insert('oklahoma')
         myTree.insert('okanawa')
         myTree.insert('optimism')
-        myTree.root.printToPDF()
+        myTree.root.printToPDF(width)
 
 
 if __name__ == '__main__':
