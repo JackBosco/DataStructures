@@ -7,18 +7,16 @@ class PrintNode:
         pass
     def getVal() -> AnyStr:
         pass
-
-class drawTree:
-    def run(head:PrintNode, width=2):
+    def printToPDF(self, width=2):
         ret = ''
         
-        parentLevel = [head]
+        parentLevel = [self]
         childLevel = []
         #childLevel = List(Node)
         tag = [0, 0]
-        getTag = {head : [0, 0]}
-        findParent = {head : None}
-        youngerSibling = {head : None}
+        getTag = {self : [0, 0]}
+        findParent = {self : None}
+        youngerSibling = {self : None}
         level = 0
         while any([n is not None for n in parentLevel]):
             #print(str([(p.getVal(), getTag[p]) for p in parentLevel]), end='')
@@ -41,7 +39,7 @@ class drawTree:
             childLevel.clear()
             level += 1
         
-        parentLevel = [head]
+        parentLevel = [self]
         curLev = 1
         while any([n is not None for n in parentLevel]):
             sibNum = 0
@@ -62,20 +60,19 @@ class drawTree:
                     'edge[below] node{$ $} (' + str(getTag[p][0]) + '-' + str(getTag[p][1]) +');\n'
                     sibNum = (sibNum + 1) % (numSiblings + 1)
                 else:
-                    ret += '\\node[state, initial] (0-0) {' + head.getVal() + '};\n'
+                    ret += '\\node[state, initial] (0-0) {' + self.getVal() + '};\n'
                 if p:
                     childLevel += p.getChildren()
                 
             parentLevel = childLevel.copy()
             childLevel.clear()
             curLev += 1
-            
         ret += '\\end{tikzpicture}\n' + \
             '\\end{document}'
         fileName = 'drawTree'
         if 'out' not in os.listdir('.'):
             os.mkdir('out')
-        files = set(os.listdir('./out/'))
+        files = set(os.listdir('.'+os.sep+'out'+os.sep))
         n = ''
         while fileName + n + '.tex' in files:
             if len(n) == 0:
@@ -83,15 +80,16 @@ class drawTree:
             else:
                 n = str(int(n) + 1)
         fileName += n + '.tex'
-        f = open('out/' + fileName, 'w')
+        f = open('out' + os.sep + fileName, 'w')
         f.write('\LoadClass{my_tikz}\n' + \
             '\\newcommand\\nodespace{'+ str(width) +'mm}\n' + \
             '\\begin{document}\n' + \
             '\\begin{tikzpicture}\n' + ret)
-        if 'my_tikz.cls' not in os.listdir('./out/'):
+        if 'my_tikz.cls' not in os.listdir('.' + os.sep + 'out' + os.sep):
             new = open('my_tikz.cls', 'r').read()
-            open('out/my_tikz.cls', 'w').write(new)
-        return 'Output written to ' + str(os.getcwd()) + '/out/' + fileName
+            open('out' + os.sep + 'my_tikz.cls', 'w').write(new)
+        print('Output written to ' + str(os.getcwd()) + os.sep + 'out' + os.sep + fileName)
+        return True
         
 def main():
     print("Running main() from drawTree.py")
@@ -102,7 +100,7 @@ def main():
         #lst = [5, 7, 8, 2, 3, 4, 1, 0 ,443, 5, 6, 7, 2]
         lst = [3, 2, 4]
         myTree = BST(lst)
-        print(myTree)
+        myTree.root.printToPDF()
     else:
         from trie import Trie
         myTree = Trie()
@@ -111,8 +109,7 @@ def main():
         myTree.insert('oklahoma')
         myTree.insert('okanawa')
         myTree.insert('optimism')
-    dt = drawTree
-    print(dt.run(myTree.root))
+        myTree.root.printToPDF()
 
 
 if __name__ == '__main__':
