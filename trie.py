@@ -1,4 +1,4 @@
-from drawTree import PrintNode
+from drawTree import PrintableTreeNode as PrintNode
 class TrieNode(PrintNode):
     def __init__(self, ch='\$'):
         self.children = {}

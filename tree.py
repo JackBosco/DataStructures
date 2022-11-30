@@ -1,6 +1,6 @@
 #Practice the Tree data structure
 #Jack Bosco
-from drawTree import PrintNode
+from drawTree import PrintableTreeNode as PrintNode
 class Node(PrintNode):
 	def __init__(self, value):
 		self.value = value

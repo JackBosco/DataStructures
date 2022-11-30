@@ -1,30 +1,43 @@
-from typing import List, AnyStr
+from typing import List, AnyStr, Type
 from numpy import arange
 import os
-class PrintNode:
-    #returns a list of all children
-    def getChildren(self) -> List:
+class PrintableTreeNode:
+    """
+    Allows for a head node of a tree to
+    be printed to a PDF
+    """
+    def getChildren(self) -> List['PrintableTreeNode']['getChildren']:
+        """
+        With no required parameters aside from self,
+        return a list of only PrintableTreeNodes representing the children of this node
+        """
         pass
-    def getVal() -> AnyStr:
+    
+    def getVal(self) -> AnyStr['getVal']:
+        """
+        With no required parameters aside from self,
+        return the element inside this node. 
+        This element must either be type String, or be convertable to String
+        """
         pass
-    def printToPDF(self, width=2):
-        ret = ''
-        
+    
+    def printToPDF(self, width=2.5):
+        """
+        Creates the LaTex file in a folder named 'out' 
+        in the current working directory
+        Width is a factor of the horizontal space between each node
+        """
         parentLevel = [self]
         childLevel = []
-        #childLevel = List(Node)
-        tag = [0, 0]
         getTag = {self : [0, 0]}
         findParent = {self : None}
         youngerSibling = {self : None}
         level = 0
+        #first levelorder traversal to 
+        #define all the parent, child relations
         while any([n is not None for n in parentLevel]):
-            #print(str([(p.getVal(), getTag[p]) for p in parentLevel]), end='')
-            #input()
-            isFirstInLevel = True
             for p in parentLevel:
                 kids = p.getChildren()
-                
                 for child in range(len(kids)):
                     if kids[child]:
                         findParent[kids[child]] = p
@@ -38,7 +51,9 @@ class PrintNode:
             parentLevel = childLevel.copy()
             childLevel.clear()
             level += 1
-        
+        #second levelorder traversal to
+        #store the LaTex code for the output file in a string named ret
+        ret = ''
         parentLevel = [self]
         curLev = 1
         while any([n is not None for n in parentLevel]):
@@ -63,12 +78,13 @@ class PrintNode:
                     ret += '\\node[state, initial] (0-0) {' + self.getVal() + '};\n'
                 if p:
                     childLevel += p.getChildren()
-                
             parentLevel = childLevel.copy()
             childLevel.clear()
             curLev += 1
         ret += '\\end{tikzpicture}\n' + \
             '\\end{document}'
+        #ret is now complete
+        #create the output file and directory
         fileName = 'drawTree'
         if 'out' not in os.listdir('.'):
             os.mkdir('out')
