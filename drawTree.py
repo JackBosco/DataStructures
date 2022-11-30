@@ -1,5 +1,6 @@
 from typing import List, AnyStr
 from numpy import arange
+import os
 class PrintNode:
     #returns a list of all children
     def getChildren(self) -> List:
@@ -8,10 +9,8 @@ class PrintNode:
         pass
 
 class drawTree:
-    def run(head:PrintNode):
-        ret = '\LoadClass{my_tikz}\n' + \
-        '\\begin{document}\n' + \
-        '\\begin{tikzpicture}\n'
+    def run(head:PrintNode, width=2):
+        ret = ''
         
         parentLevel = [head]
         childLevel = []
@@ -72,15 +71,36 @@ class drawTree:
             curLev += 1
             
         ret += '\\end{tikzpicture}\n' + \
-        '\\end{document}'
-        ret = ret[:57] + '\\newcommand{\\numLevels}{'+ str(level)+'}\n' + ret[57:]
-        return ret
+            '\\end{document}'
+        fileName = 'drawTree'
+        if 'out' not in os.listdir('.'):
+            os.mkdir('out')
+        files = set(os.listdir('./out/'))
+        n = ''
+        while fileName + n + '.tex' in files:
+            if len(n) == 0:
+                n = '1'
+            else:
+                n = str(int(n) + 1)
+        fileName += n + '.tex'
+        f = open('out/' + fileName, 'w')
+        f.write('\LoadClass{my_tikz}\n' + \
+            '\\newcommand\\nodespace{'+ str(width) +'mm}\n' + \
+            '\\begin{document}\n' + \
+            '\\begin{tikzpicture}\n' + ret)
+        if 'my_tikz.cls' not in os.listdir('./out/'):
+            new = open('my_tikz.cls', 'r').read()
+            open('out/my_tikz.cls', 'w').write(new)
+        return 'Output written to ' + str(os.getcwd()) + '/out/' + fileName
         
 def main():
+    print("Running main() from drawTree.py")
+    width = float(input("Specify width between nodes: "))
     kind = int(input("What kind? "))
     if kind == 1:
         from tree import BST
-        lst = [5, 7, 8, 2, 3, 4, 1, 0 ,443, 5, 6, 7, 2]
+        #lst = [5, 7, 8, 2, 3, 4, 1, 0 ,443, 5, 6, 7, 2]
+        lst = [3, 2, 4]
         myTree = BST(lst)
         print(myTree)
     else:
