@@ -20,13 +20,13 @@ instance of some Node class implementing the following methods:
         Allows for a head node of a tree to
         be printed to a PDF
         """
-        def getChildren(self) -> List['PrintableTreeNode']['getChildren']:
+        def getChildren(self) -> List['PrintableTreeNode']:
             """
             With no required parameters aside from self,
             return a list of only PrintableTreeNodes representing the children of this node
             """
         
-        def getVal(self) -> AnyStr['getVal']:
+        def getVal(self) -> AnyStr:
             """
             With no required parameters aside from self,
             return the element inside this node. 
