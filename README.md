@@ -12,8 +12,8 @@ to convert the TeX document into a PDF, or use an online distribution such as [O
 
 ### Interface PrintableTreeNode
 
-To make a tree drawable, each element in the tree must be an
-instance of some Node class implementing the following methods:
+To make a tree drawable, each element in the tree __must__ be an instance of some class.
+That class __must__ implement the PrintableTreeNode protocol with the following methods:
 
     class PrintableTreeNode:
         """
