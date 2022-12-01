@@ -1,19 +1,20 @@
-from typing import List, AnyStr, Type
+from typing import List, AnyStr, Protocol
 from numpy import arange
 import os
-class PrintableTreeNode:
+
+class PrintableTreeNode(Protocol):
     """
     Allows for a head node of a tree to
     be printed to a PDF
     """
-    def getChildren(self) -> List['PrintableTreeNode']['getChildren']:
+    def getChildren(self) -> List['PrintableTreeNode']:
         """
         With no required parameters aside from self,
         return a list of only PrintableTreeNodes representing the children of this node
         """
         pass
     
-    def getVal(self) -> AnyStr['getVal']:
+    def getVal(self) -> AnyStr:
         """
         With no required parameters aside from self,
         return the element inside this node. 
