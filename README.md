@@ -61,7 +61,7 @@ in the `out` folder. Look for the following in line 2:
 
 >    \newcommand\nodespace{1.0mm}
 
-In this case, changing `1.0` to `2.0` would ***double*** the coefficient.
+In this case, changing `1.0` to `2.0` would ***double*** the width between the nodes.
 
 >    \newcommand\nodespace{2.0mm}
 
